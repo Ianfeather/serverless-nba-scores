@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sample static serverless site</title>
+</head>
+<body>
+
+  <div id='test'>
+
+  </div>
+
+  <script type="text/javascript">
+    var getJson = response => response.json();
+
+    function qs(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+    fetch(`https://ovpknpvcak.execute-api.eu-west-1.amazonaws.com/dev/single?name=${qs('name')}`)
+      .then(getJson)
+      .then(data => document.querySelector('#test').innerHTML = `Hello, ${data.name}`);
+
+  </script>
+
+</body>
+</html>
