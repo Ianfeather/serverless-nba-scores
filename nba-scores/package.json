@@ -1,7 +1,7 @@
 {
   "name": "nba-scores",
   "version": "0.0.1",
-  "description": "A Serverless Project and its Serverless Plugin dependencies.",
+  "description": "A Serverless Project to fetch NBA scores and determine if they were close.",
   "author": "me",
   "license": "MIT",
   "private": false,

@@ -1,10 +1,8 @@
 const request = require('request');
-var doc = require('dynamodb-doc');
-var dynamodb = new doc.DynamoDB();
+const doc = require('dynamodb-doc');
+
+const dynamodb = new doc.DynamoDB();
 const BEARER = process.env.BEARER_TOKEN;
-
-console.log("bearer", BEARER)
-
 const stage = process.env.SERVERLESS_STAGE;
 
 const tableName = 'nba-scores-' + stage;
@@ -25,16 +23,13 @@ module.exports.getScores = function(event, cb) {
 
 
   var getParams = {
-    AttributesToGet: [
-      "games"
-    ],
+    AttributesToGet: [ "games" ],
     TableName : tableName,
     Key : {
       "date" : event.date
     }
   };
 
-  console.log(getParams)
   dynamodb.getItem(getParams, function(err, data) {
     if (err) {
       // Something has gone wrong with dynamo
@@ -43,7 +38,7 @@ module.exports.getScores = function(event, cb) {
     }
 
     if (data.Item) {
-      // We have games already stored in the db
+      // We have games already stored in the db so just return them and exit early
       console.log("SUCCESS: Retrieved data from db", data);
       return cb(null, { games: data.Item.games, fromCache: true });
     }
@@ -87,7 +82,7 @@ module.exports.getScores = function(event, cb) {
         return cb(null, { games: games, fromCache: false });
       }
 
-      // Cache the result so that we don't incur rate limiting issues with the api
+      // Cache the result so that we don't have to go to the api next time
 
       var dynamoData = {
           TableName: tableName,
@@ -103,7 +98,6 @@ module.exports.getScores = function(event, cb) {
               return cb(null, { error: error })
           } else {
               console.log('Dynamo Success: ' + JSON.stringify(data, null, '  '));
-              // TODO: Set in headers
               return cb(null, { games: games, fromCache: false });
           }
       });
