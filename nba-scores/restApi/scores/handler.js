@@ -12,7 +12,6 @@ var lib = require('../lib');
 
 // Lambda Handler
 module.exports.handler = function(event, context) {
-
   lib.getScores(event, function(error, response) {
     return context.done(error, response);
   });

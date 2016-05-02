@@ -10,6 +10,8 @@
     "url": "git://github.com/"
   },
   "dependencies": {
+    "dynamodb-doc": "^1.0.0",
+    "request": "^2.72.0",
     "serverless-cors-plugin": "^0.4.1",
     "serverless-optimizer-plugin": "^2.0.0"
   }

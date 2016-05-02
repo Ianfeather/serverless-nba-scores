@@ -1,6 +1,8 @@
 {
   "name": "nba-scores",
-  "custom": {},
+  "custom": {
+
+  },
   "plugins": [
     "serverless-optimizer-plugin",
     "serverless-cors-plugin"
