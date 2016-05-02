@@ -2,8 +2,40 @@
 <html>
 <head>
   <title>Sample static serverless site</title>
+  <style>
+    .flex {
+      display: flex;
+    }
+    .flex-column {
+      flex-direction: column;
+    }
+    .center {
+      justify-content: center;
+      text-align: center;
+    }
+    .mb20 {
+      margin-bottom: 20px;
+    }
+    .mb50 {
+      margin-bottom: 50px;
+    }
+    .spring-2 { flex: 2; }
+    .spring-3 { flex: 3; }
+    .spring-4 { flex: 4; }
+  </style>
 </head>
 <body>
+
+  <script type="text/template" id="gameTemplate">
+    <div class="mb50 flex flex-column">
+      <div class="flex center mb20">
+        <div class="team">{homeTeam}</div>
+        vs
+        <div class="team">{awayTeam}</div>
+      </div>
+      <div class="close center">{close}</div>
+    </div>
+  </script>
 
   <div id='test'>
 
@@ -12,19 +44,42 @@
   <script type="text/javascript">
     var getJson = response => response.json();
 
-    function qs(name, url) {
-        if (!url) url = window.location.href;
-        name = name.replace(/[\[\]]/g, "\\$&");
-        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-            results = regex.exec(url);
-        if (!results) return null;
-        if (!results[2]) return '';
-        return decodeURIComponent(results[2].replace(/\+/g, " "));
-    }
+    var zeroPad = num => {
+      if (num < 10) {
+        return "0" + num
+      }
+      return num
+    };
 
-    fetch(`https://ovpknpvcak.execute-api.eu-west-1.amazonaws.com/dev/single?name=${qs('name')}`)
+    var getYesterdaysDate = () => {
+        var date = new Date();
+        date.setDate(date.getDate()-1);
+        return `${date.getFullYear()}${zeroPad(date.getMonth() + 1)}${zeroPad(date.getDate())}`;
+    };
+
+    var templ = (str, data) => {
+       for(var p in data) {
+         str = str.replace(new RegExp('{' + p + '}','g'), data[p]);
+       }
+       return str;
+    };
+
+    var gameTemplate = document.querySelector('#gameTemplate').innerHTML;
+
+    fetch(`https://np2nxjh56c.execute-api.eu-west-1.amazonaws.com/dev/scores?date=${getYesterdaysDate()}`)
       .then(getJson)
-      .then(data => document.querySelector('#test').innerHTML = `Hello, ${data.name}`);
+      .then(data => {
+
+        var html = data.games.map(game => {
+          return templ(gameTemplate, {
+            homeTeam: game.home.name,
+            awayTeam: game.away.name,
+            close: game.close ? "Yeah, this was a close one." : "Nope, not that close at all."
+          })
+        });
+
+        document.querySelector('#test').innerHTML = html.join("")
+      });
 
   </script>
 
