@@ -3,6 +3,11 @@
 <head>
   <title>Sample static serverless site</title>
   <style>
+    body {
+      background: #FCFEFC;
+      font-family: Avenir, 'Helvetica Neue', Helvetica, sans-serif;
+      padding-top: 70px;
+    }
     .flex {
       display: flex;
     }
@@ -13,25 +18,38 @@
       justify-content: center;
       text-align: center;
     }
+    .v-center {
+      align-items: center;
+    }
     .mb20 {
       margin-bottom: 20px;
     }
-    .mb50 {
-      margin-bottom: 50px;
+    .mb80 {
+      margin-bottom: 80px;
+    }
+    .h100 {
+      height: 100px;
     }
     .spring-2 { flex: 2; }
     .spring-3 { flex: 3; }
     .spring-4 { flex: 4; }
+    .vs {
+      font-size: 30px;
+    }
   </style>
 </head>
 <body>
 
   <script type="text/template" id="gameTemplate">
-    <div class="mb50 flex flex-column">
+    <div class="mb80 flex flex-column">
       <div class="flex center mb20">
-        <div class="team">{homeTeam}</div>
-        vs
-        <div class="team">{awayTeam}</div>
+        <div class="team">
+          <img src="img/{homeTeam}.gif" />
+        </div>
+        <div class="vs h100 flex v-center">vs</div>
+        <div class="team">
+          <img src="img/{awayTeam}.gif" />
+        </div>
       </div>
       <div class="close center">{close}</div>
     </div>
