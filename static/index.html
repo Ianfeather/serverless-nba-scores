@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Sample static serverless site</title>
+  <title>Yesterday's NBA Games</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body {
       background: #FCFEFC;
       font-family: Avenir, 'Helvetica Neue', Helvetica, sans-serif;
-      padding-top: 70px;
+      margin: 0;
+      padding: 0;
     }
     .flex {
       display: flex;
@@ -36,9 +38,21 @@
     .vs {
       font-size: 30px;
     }
+
+    .header {
+      padding: 20px 40px 30px;
+      margin-bottom: 60px;
+      border-bottom: 2px solid #78758C;
+    }
   </style>
 </head>
 <body>
+
+  <div class="flex center flex-column header">
+    <p>A site for non-US NBA fans who watch games the day after but don't want to watch blowouts.</p>
+    <p>Also, an experiment in building a serverless app using AWS Lambda, API Gateway, S3, Route 53 and DynamoDB - <a href="https://github.com/Ianfeather/serverless-nba-scores">https://github.com/Ianfeather/serverless-nba-scores</a></p>
+  </div>
+
 
   <script type="text/template" id="gameTemplate">
     <div class="mb80 flex flex-column">
@@ -56,26 +70,32 @@
   </script>
 
   <div id='test'>
-
+    <div class="mb80 flex flex-column">
+      <div class="flex center mb20">
+        Fetching yesterday's results...
+      </div>
+    </div>
   </div>
 
   <script type="text/javascript">
-    var getJson = response => response.json();
+    var getJson = function(response) {
+      return response.json()
+    };
 
-    var zeroPad = num => {
+    var zeroPad = function(num) {
       if (num < 10) {
         return "0" + num
       }
       return num
     };
 
-    var getYesterdaysDate = () => {
+    var getYesterdaysDate = function() {
         var date = new Date();
         date.setDate(date.getDate()-1);
         return `${date.getFullYear()}${zeroPad(date.getMonth() + 1)}${zeroPad(date.getDate())}`;
     };
 
-    var templ = (str, data) => {
+    var templ = function(str, data) {
        for(var p in data) {
          str = str.replace(new RegExp('{' + p + '}','g'), data[p]);
        }
@@ -84,20 +104,26 @@
 
     var gameTemplate = document.querySelector('#gameTemplate').innerHTML;
 
-    fetch(`https://np2nxjh56c.execute-api.eu-west-1.amazonaws.com/dev/scores?date=${getYesterdaysDate()}`)
-      .then(getJson)
-      .then(data => {
-
-        var html = data.games.map(game => {
-          return templ(gameTemplate, {
-            homeTeam: game.home.name,
-            awayTeam: game.away.name,
-            close: game.close ? "Yeah, this was a close one." : "Nope, not that close at all."
-          })
-        });
-
-        document.querySelector('#test').innerHTML = html.join("")
+    function reqListener () {
+      console.log(this.responseText);
+      var data = JSON.parse(this.responseText);
+      var html = data.games.map(function(game) {
+        return templ(gameTemplate, {
+          homeTeam: game.home.name.toLowerCase(),
+          awayTeam: game.away.name.toLowerCase(),
+          close: game.close ? "Yeah, this was a close one." : "Nope, not that close at all."
+        })
       });
+
+      document.querySelector('#test').innerHTML = html.join("")
+    }
+
+    var oReq = new XMLHttpRequest();
+    oReq.addEventListener("load", reqListener);
+    oReq.open("GET", `https://np2nxjh56c.execute-api.eu-west-1.amazonaws.com/dev/scores?date=${getYesterdaysDate()}`);
+    oReq.send();
+
+
 
   </script>
 
