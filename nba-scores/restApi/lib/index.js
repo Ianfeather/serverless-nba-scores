@@ -76,8 +76,18 @@ module.exports.getScores = function(event, cb) {
         }
       });
 
-      // Cache the games in the db
-      console.log("Storing data in db", data);
+      // If any of the scores are -1 it means the game is still ongoing
+      // Avoid caching it if that's the case
+
+      var ongoingGames = games.filter(function(game) {
+        return game.home.score === -1
+      });
+
+      if (ongoingGames.length > 0) {
+        return cb(null, { games: games, fromCache: false });
+      }
+
+      // Cache the result so that we don't incur rate limiting issues with the api
 
       var dynamoData = {
           TableName: tableName,
