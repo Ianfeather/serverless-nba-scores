@@ -1,4 +1,4 @@
-### My first serveless application
+### My first serverless application
 
 I'm an avid NBA fan so part of my day (especially during the playoffs) is devoted to avoiding any mention of last night's NBA scores. One of the big problems associated with this is waiting to watch a game and then it being a blowout by 20, 30 points. Those games are way too boring and generally not worth watching.
 
