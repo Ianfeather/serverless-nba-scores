@@ -87,11 +87,31 @@
         return num
       };
 
+      var parseQuery = function (qstr) {
+        var query = {};
+        var a = qstr.substr(1).split('&');
+        for (var i = 0; i < a.length; i++) {
+            var b = a[i].split('=');
+            query[decodeURIComponent(b[0])] = decodeURIComponent(b[1] || '');
+        }
+        return query;
+      }
+
       var getYesterdaysDate = function() {
           var date = new Date();
           date.setDate(date.getDate()-1);
           return `${date.getFullYear()}${zeroPad(date.getMonth() + 1)}${zeroPad(date.getDate())}`;
       };
+
+      var getDate = function() {
+        if (window.location.search) {
+          var qs = parseQuery(window.location.search);
+          if (qs.date) {
+            return qs.date;
+          }
+        }
+        return getYesterdaysDate();
+      }
 
       var templ = function(str, data) {
          for(var p in data) {
@@ -127,7 +147,7 @@
 
       var oReq = new XMLHttpRequest();
       oReq.addEventListener("load", reqListener);
-      oReq.open("GET", `https://np2nxjh56c.execute-api.eu-west-1.amazonaws.com/dev/scores?date=${getYesterdaysDate()}`);
+      oReq.open("GET", `https://np2nxjh56c.execute-api.eu-west-1.amazonaws.com/dev/scores?date=${getDate()}`);
       oReq.send();
     </script>
 

@@ -34,3 +34,7 @@ The end result is at http://wasitclose.co.uk.
 ## Upload a new index.html
 
 `aws s3 cp --region eu-west-1 --profile personal static/index.html s3://wasitclose.co.uk/index.html`
+
+## A date with games for testing
+
+http://wasitclose.co.uk/?date=20160429
