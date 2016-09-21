@@ -44,6 +44,8 @@
         margin-bottom: 60px;
         border-bottom: 2px solid #78758C;
       }
+
+      .w60 { width: 60%; }
     </style>
   </head>
   <body>
@@ -102,6 +104,16 @@
 
       function reqListener () {
         var data = JSON.parse(this.responseText);
+
+        if (!data.games.length) {
+          document.querySelector('#test').innerHTML = "<h1 class='center flex'>" +
+            "<div class='w60'>" +
+              "There were no games yesterday, it's probably the offseason or something. Go outside." +
+            "<div>" +
+          "</h1>";
+          return;
+        }
+
         var html = data.games.map(function(game) {
           return templ(gameTemplate, {
             homeTeam: game.home.name.toLowerCase(),

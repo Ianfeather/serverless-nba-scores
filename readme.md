@@ -12,7 +12,7 @@ I saw a talk on AWS Lambda at the [AWS Loft](https://awsloft.london) in London a
 
 Sure I could have used heroku + node and it would have been free but I can think of a lot of small use cases for Lambda so I wanted to learn more about it.
 
-The app is incredibly simple but it was still remarkably easy to set up and get all these tools working together. API Gateway, Lambda and Dynamodb are all managed by Cloudformation whereas the rest is currently manually managed. 
+The app is incredibly simple but it was still remarkably easy to set up and get all these tools working together. API Gateway, Lambda and Dynamodb are all managed by Cloudformation whereas the rest is currently manually managed.
 
 To get this up and running I used the Serverless Framework - https://github.com/serverless/serverless. This does a lot of the heavy lifting for you, particularly in relation to the cloudformation stuff, and the documentation is great.
 
@@ -21,3 +21,16 @@ If you want to understand how Serverless applications work I would start with th
 The code that is actually executed in the lambda is in [https://github.com/Ianfeather/serverless-nba-scores/blob/master/nba-scores/restApi/lib/index.js](https://github.com/Ianfeather/serverless-nba-scores/blob/master/nba-scores/restApi/lib/index.js)
 
 The end result is at http://wasitclose.co.uk.
+
+
+
+# Notes to self
+
+
+## Deploy serverless
+
+`sls dash deploy` will list and deploy the lambda and gateway
+
+## Upload a new index.html
+
+`aws s3 cp --region eu-west-1 --profile personal static/index.html s3://wasitclose.co.uk/index.html`
