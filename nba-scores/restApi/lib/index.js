@@ -67,7 +67,8 @@ module.exports.getScores = function(event, cb) {
             name: game.away_team.abbreviation,
             score: game.away_points_scored
           },
-          close: diff < 10 && diff > -10
+          close: diff < 10 && diff > -10,
+          ongoing: game.home_points_scored == -1
         }
       });
 
