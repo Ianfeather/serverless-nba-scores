@@ -2,7 +2,17 @@
 <html>
   <head>
     <title>Yesterday's NBA Games</title>
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="img/apple-touch-icon.png" type="image/png" />
+    <link rel="shortcut icon" crossOrigin="" href="img/favicon.ico" type="image/x-icon" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="apple-mobile-web-app-title" content="Was it close?" />
+    <meta name="theme-color" content="#CC0A2C" />
+    <meta property="author" content="Ian Feather" />
+    <meta property="description" content="Avoid watching blowout games on NBA League Pass" />
+
     <style>
       body {
         background: #FCFEFC;
@@ -26,6 +36,9 @@
       .mb20 {
         margin-bottom: 20px;
       }
+      .mb60 {
+        margin-bottom: 60px;
+      }
       .mb80 {
         margin-bottom: 80px;
       }
@@ -45,14 +58,19 @@
         border-bottom: 2px solid #78758C;
       }
 
+      .footer {
+        padding: 20px 40px 30px;
+        margin-top: 60px;
+        border-top: 2px solid #78758C;
+      }
+
       .w60 { width: 60%; }
     </style>
   </head>
   <body>
 
     <div class="flex center flex-column header">
-      <p>A site for non-US NBA fans who watch games the day after and want to avoid blowouts.</p>
-      <p>Built on Lambda - <a href="https://github.com/Ianfeather/serverless-nba-scores">https://github.com/Ianfeather/serverless-nba-scores</a></p>
+      <p>A close game is a good game!</p>
     </div>
 
 
@@ -77,6 +95,11 @@
           Fetching yesterday's results...
         </div>
       </div>
+    </div>
+
+    <div class="flex center flex-column footer">
+      <p> If, like me, you're an NBA fan living in the wrong timezone then this site can help you avoid tuning in for blowout games. My friends and I used to get togther to watch big games on League Pass the day afterwards, but often ended up watching boring blowout games. So I finally built this to get around the problem.</p>
+      <p>The code for this site is Open Source and available on GitHub. It's built on AWS Lambda - <a href="https://github.com/Ianfeather/serverless-nba-scores">https://github.com/Ianfeather/serverless-nba-scores</a></p>
     </div>
 
     <script type="text/javascript">
@@ -148,7 +171,9 @@
           })
         });
 
-        document.querySelector('#test').innerHTML = html.join("")
+        var title = "<h2 class='title center flex mb60'><div class='w60'>Yesterday's games:</div></h2>";
+
+        document.querySelector('#test').innerHTML = title + html.join("")
       }
 
       var oReq = new XMLHttpRequest();
