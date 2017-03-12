@@ -1,7 +1,0 @@
-{
-  "apiRequestTemplate": {
-    "application/json": {
-      "date": "$input.params('date')"
-    }
-  }
-}

@@ -1,6 +1,6 @@
 {
   "name": "nba-scores",
-  "version": "0.0.1",
+  "version": "0.9.0",
   "description": "A Serverless Project to fetch NBA scores and determine if they were close.",
   "author": "me",
   "license": "MIT",
@@ -10,9 +10,7 @@
     "url": "git://github.com/"
   },
   "dependencies": {
-    "dynamodb-doc": "^1.0.0",
-    "request": "^2.72.0",
-    "serverless-cors-plugin": "^0.4.1",
-    "serverless-optimizer-plugin": "^2.0.0"
+    "aws-sdk": "2.27.0",
+    "request": "^2.72.0"
   }
 }
