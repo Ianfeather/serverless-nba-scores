@@ -29,7 +29,7 @@ The end result is at http://wasitclose.co.uk.
 
 ## Deploy serverless
 
-`sls dash deploy` will list and deploy the lambda and gateway
+`AWS_DEV_PROFILE=personal serverless deploy` will list and deploy the lambda and gateway
 
 ## Upload a new index.html
 
