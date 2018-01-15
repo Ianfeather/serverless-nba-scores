@@ -12,7 +12,7 @@ module.exports = {
 
     var opts = {
           auth: {
-            bearer: "9e215ea3-0f49-4bdb-a4ad-c6f753ba2e4d"
+            bearer: ""
           },
           headers: {
             'User-Agent': 'ianfeather'
